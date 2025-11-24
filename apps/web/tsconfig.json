@@ -3,7 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@repo/ai": ["../../packages/ai/src"],
+      "@repo/ai/*": ["../../packages/ai/src/*"],
+      "@repo/supabase": ["../../packages/supabase/src"],
+      "@repo/supabase/*": ["../../packages/supabase/src/*"]
     }
   },
   "include": ["."]

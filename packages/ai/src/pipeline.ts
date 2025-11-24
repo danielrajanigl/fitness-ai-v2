@@ -1,11 +1,13 @@
-import ollama from "ollama";
-import { embed } from "./model";
+import { embed, runChat } from "./model";
 import { COACH_PROMPT } from "./prompts/coach";
 import { getRelevantContext } from "./retriever";
 
 export async function askCoach(question, userId) {
   const embedding = await embed(question);
-  if (!embedding) return { error: "EMBED_FAIL" };
+  if (!embedding) {
+    console.error("Embedding failed for question:", question);
+    return { error: "EMBED_FAIL", details: "Could not generate embedding. Check if qwen2:7b model is available." };
+  }
 
   const context = await getRelevantContext(embedding, userId);
 
@@ -17,15 +19,10 @@ QUESTION:
 ${question}
 `;
 
-  const res = await ollama.chat({
-    model: "mistral:latest",
-    stream: false,
-    messages: [
-      { role: "system", content: COACH_PROMPT },
-      { role: "user", content: prompt }
-    ],
-    options: { temperature: 0.4 }
-  });
+  const res = await runChat([
+    { role: "system", content: COACH_PROMPT },
+    { role: "user", content: prompt }
+  ]);
 
   let text = res?.message?.content?.trim() || "";
   if (text.startsWith("```")) {
