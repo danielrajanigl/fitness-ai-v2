@@ -148,6 +148,7 @@ export async function saveDataWithEmbedding(
 
 /**
  * Batch save multiple data items with embeddings
+ * Optimized with batching and parallel processing
  */
 export async function batchSaveDataWithEmbeddings(
   items: Array<{
@@ -155,20 +156,54 @@ export async function batchSaveDataWithEmbeddings(
     type: DataType;
     userId: string;
     sourceId?: string;
-  }>
+  }>,
+  batchSize: number = 10,
+  parallelLimit: number = 3
 ): Promise<{ success: number; failed: number; errors: string[] }> {
   let success = 0;
   let failed = 0;
   const errors: string[] = [];
 
-  for (const item of items) {
-    const result = await saveDataWithEmbedding(item.data, item.type, item.userId, item.sourceId);
-    if (result.success) {
-      success++;
-    } else {
-      failed++;
-      errors.push(`${item.type}: ${result.error}`);
+  // Process in batches to avoid overwhelming the system
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    
+    // Process batch with limited parallelism
+    const batchPromises: Promise<void>[] = [];
+    let activePromises = 0;
+
+    for (const item of batch) {
+      // Wait if we've reached the parallel limit
+      if (activePromises >= parallelLimit) {
+        await Promise.race(batchPromises);
+        batchPromises.splice(
+          batchPromises.findIndex((p) => p === batchPromises[0]),
+          1
+        );
+        activePromises--;
+      }
+
+      const promise = (async () => {
+        try {
+          const result = await saveDataWithEmbedding(item.data, item.type, item.userId, item.sourceId);
+          if (result.success) {
+            success++;
+          } else {
+            failed++;
+            errors.push(`${item.type}: ${result.error}`);
+          }
+        } catch (error) {
+          failed++;
+          errors.push(`${item.type}: ${error instanceof Error ? error.message : "Unknown error"}`);
+        }
+      })();
+
+      batchPromises.push(promise);
+      activePromises++;
     }
+
+    // Wait for remaining promises in batch
+    await Promise.all(batchPromises);
   }
 
   return { success, failed, errors };

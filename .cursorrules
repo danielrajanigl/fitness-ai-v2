@@ -1,0 +1,25 @@
+# Fitness AI Coach V2 - Cursor Rules
+
+## Project Structure
+- Monorepo with Turbo
+- `apps/web` - Next.js 16 application
+- `packages/ai` - AI/LLM package
+- `packages/supabase` - Supabase client/server
+
+## Key Technologies
+- Next.js 16 (App Router)
+- TypeScript
+- Supabase (Auth, Database, RLS)
+- Ollama (Local LLM)
+- Tailwind CSS
+
+## Important Files
+- `COMPLETE_IMPLEMENTATION_PLAN.md` - Main implementation plan
+- `database_blueprint_v1.md` - Database schema
+
+## Code Style
+- Use TypeScript strictly
+- Follow Next.js 16 App Router conventions
+- Use Supabase for authentication and database
+- Keep components simple and reusable
+

@@ -132,3 +132,46 @@ export interface FitnessGoal {
   description: string;
 }
 
+// AI Pipeline Types
+export interface ChatMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
+export interface OllamaChatResponse {
+  message: {
+    role: string;
+    content: string;
+  };
+  done: boolean;
+}
+
+export interface OllamaEmbeddingResponse {
+  embedding?: number[];
+  embeddings?: number[][];
+}
+
+export interface CoachRequest {
+  question: string;
+  user_id: string;
+}
+
+export interface CoachResponse {
+  summary: string;
+  training_advice: string;
+  progression_plan: {
+    exercise: string;
+    next_load: string;
+    sets: string;
+    reps: string;
+  };
+}
+
+export interface CoachErrorResponse {
+  error: 'EMBED_FAIL' | 'INVALID_JSON' | 'REQUEST_ERROR';
+  details?: string;
+  raw?: string;
+}
+
+export type CoachResult = CoachResponse | CoachErrorResponse;
+
