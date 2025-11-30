@@ -1,25 +1,77 @@
-# Fitness AI Coach V2 - Cursor Rules
+RULESET: UI TOKEN MIGRATION v1.0
 
-## Project Structure
-- Monorepo with Turbo
-- `apps/web` - Next.js 16 application
-- `packages/ai` - AI/LLM package
-- `packages/supabase` - Supabase client/server
+Purpose:
+Ensure all UI elements in the codebase migrate from legacy Tailwind utility styling and inline colors to the new design tokens defined in `packages/design-system/tokens/design-tokens.ts`.
 
-## Key Technologies
-- Next.js 16 (App Router)
-- TypeScript
-- Supabase (Auth, Database, RLS)
-- Ollama (Local LLM)
-- Tailwind CSS
+⚠️ Rules apply ONLY to files inside: `apps/web/**` — never modify files in `packages/design-system/**`.
 
-## Important Files
-- `COMPLETE_IMPLEMENTATION_PLAN.md` - Main implementation plan
-- `database_blueprint_v1.md` - Database schema
+-----------------------------------
 
-## Code Style
-- Use TypeScript strictly
-- Follow Next.js 16 App Router conventions
-- Use Supabase for authentication and database
-- Keep components simple and reusable
+🎨 COLOR RULES
+- Replace all hex values (#xxxxxx) with the closest match from: tokens.colors.*
+- Replace Tailwind color classes (e.g., `text-gray-500`, `bg-blue-500`) with tokens-based CSS variables.
+- If token mapping is unclear, comment: // TODO: TokenMapNeeded(color)
 
+-----------------------------------
+
+🔠 TYPOGRAPHY RULES
+- Replace Tailwind sizing classes (`text-xs`, `text-sm`, `text-xl`) with token equivalents.
+- Inline font-size declarations must be replaced with: style={{ fontSize: tokens.font.size.* }}
+
+-----------------------------------
+
+📦 SPACING & RADIUS
+- Replace all custom radius (`rounded-[x]`) with tokens.radius.*
+- Replace spacing like `p-3`, `m-4` only when used stylistically, not layout-critical.
+
+-----------------------------------
+
+⚛️ COMPONENT MIGRATION
+- Replace HTML <button> with `<Button />`
+- Replace custom progress bars with `@repo/design-system/components/ProgressBar`
+- Replace inline alerts with new `<Alert />` component (if unavailable, comment: TODO: Create Alert component)
+
+-----------------------------------
+
+🧪 SAFETY + OUTPUT
+- After each file transformation, output:
+  - Summary of replacements
+  - Unresolved TODO tokens
+  - Whether file is considered: Fully migrated | Partially migrated | Needs manual review
+
+---
+
+🎨 STYLE SYSTEM: "Hybrid Fitness Premium (Mode D)" — PERMANENT RULE
+
+Apply automatically to all UI components and refactors:
+
+1. VISUAL LANGUAGE
+   - Minimal, clean, light spacing, no heavy borders
+   - Subtle shadows only for interactive elements (cards, sheets, floating UI)
+   - Primary color ONLY for: CTAs, progress, active nav, success confirmations
+
+2. TYPOGRAPHY
+   - Headings: clean, bold but not oversized
+   - Body: neutral, softer tone using textMuted token
+   - No decorative/playful fonts
+
+3. RADIUS SYSTEM
+   - Buttons: tokens.radius.md
+   - Cards & modals: tokens.radius.lg
+   - Icons & inputs: tokens.radius.sm
+   - tokens.radius.full ONLY for avatars/circular UI
+
+4. INTERACTION & MOTION
+   - Micro-interactions: scale(0.98) on press, soft transitions
+   - Page transitions: smooth and subtle, no hard slides
+   - Progress/health: slight motion for feedback OK
+
+5. COLOR PHILOSOPHY
+   - Layout: neutral grayscale with subtle contrast
+   - Brand color: intentional meaning, not decoration
+
+6. DARK MODE
+   - No aggressive color inversion
+   - Soft layered surfaces, textMuted softened, primary consistent
+
+---

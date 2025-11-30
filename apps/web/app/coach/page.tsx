@@ -4,10 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Bot, User } from "lucide-react";
-import { Card } from "@/components/Card";
-import { Button } from "@/components/Button";
-import { Input } from "@/components/Input";
-import { Navigation } from "@/components/Navigation";
+import { Card } from "@repo/design-system/components/Card";
+import { Button } from "@repo/design-system/components/Button";
+import { Input } from "@repo/design-system/components/Input";
+import { Alert } from "@repo/design-system/components/Alert";
+import { NavBar } from "@repo/design-system/components/NavBar";
+import { PageContainer } from "@repo/design-system/layout/PageContainer";
 
 interface Message {
   id: string;
@@ -135,9 +137,10 @@ export default function CoachPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <Navigation />
+      <NavBar />
       
-      <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-6 pb-24 md:pb-6">
+      <PageContainer>
+        <main className="flex-1 max-w-[1200px] mx-auto w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
           <Link
@@ -181,9 +184,9 @@ export default function CoachPage() {
                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
                 ) : message.error ? (
-                  <Card className="border-[#F59E0B]">
-                    <p className="text-sm text-[#F59E0B]">{message.content}</p>
-                  </Card>
+                  <Alert variant="error">
+                    {message.content}
+                  </Alert>
                 ) : (
                   <Card>
                     <p className="text-sm mb-3">{message.content}</p>
@@ -304,7 +307,8 @@ export default function CoachPage() {
             </Button>
           </div>
         </form>
-      </main>
+        </main>
+      </PageContainer>
     </div>
   );
 }

@@ -8,7 +8,9 @@
       "@repo/ai": ["../../packages/ai/src"],
       "@repo/ai/*": ["../../packages/ai/src/*"],
       "@repo/supabase": ["../../packages/supabase/src"],
-      "@repo/supabase/*": ["../../packages/supabase/src/*"]
+      "@repo/supabase/*": ["../../packages/supabase/src/*"],
+      "@repo/design-system": ["../../packages/design-system"],
+      "@repo/design-system/*": ["../../packages/design-system/*"]
     }
   },
   "include": ["."]

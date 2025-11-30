@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Alert } from "@repo/design-system/components/Alert";
 
 export default function CoachTestPage() {
   const router = useRouter();
@@ -86,17 +87,10 @@ export default function CoachTestPage() {
       </div>
 
       {error && (
-        <div
-          style={{
-            padding: 10,
-            backgroundColor: "#fee",
-            border: "1px solid #fcc",
-            borderRadius: 4,
-            color: "#c00",
-            marginBottom: 20,
-          }}
-        >
-          <strong>Error:</strong> {error}
+        <div style={{ marginBottom: 20 }}>
+          <Alert variant="error" title="Error">
+            {error}
+          </Alert>
         </div>
       )}
 

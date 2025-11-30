@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase";
-import { Card } from "@/components/Card";
-import { Button } from "@/components/Button";
-import { Input } from "@/components/Input";
+import { Card } from "@repo/design-system/components/Card";
+import { Button } from "@repo/design-system/components/Button";
+import { Input } from "@repo/design-system/components/Input";
+import { Alert } from "@repo/design-system/components/Alert";
+import { tokens } from "@repo/design-system/tokens/design-tokens";
 import Link from "next/link";
 
 export default function SignupPage() {
@@ -55,11 +57,14 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-6">
+    <div 
+      className="min-h-screen flex items-center justify-center px-6"
+      style={{ backgroundColor: tokens.colors.surfaceAlt }}
+    >
       <Card className="w-full max-w-md">
         <div className="mb-8">
           <h2 className="mb-2">Create your account</h2>
-          <p className="text-[#6B7280]">Start your fitness journey</p>
+          <p style={{ color: tokens.colors.textMuted }}>Start your fitness journey</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
@@ -94,9 +99,9 @@ export default function SignupPage() {
           />
 
           {error && (
-            <div className="text-sm text-[#F59E0B] bg-[#FEF3C7] border border-[#FCD34D] rounded-[8px] p-3">
+            <Alert variant="error">
               {error}
-            </div>
+            </Alert>
           )}
 
           <Button type="submit" disabled={loading} className="w-full">
@@ -104,9 +109,28 @@ export default function SignupPage() {
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-[#6B7280]">
+        <p 
+          className="mt-6 text-center"
+          style={{ 
+            fontSize: tokens.font.size.sm,
+            color: tokens.colors.textMuted,
+            fontFamily: tokens.font.family,
+          }}
+        >
           Already have an account?{" "}
-          <Link href="/login" className="text-[#4B75FF] hover:underline">
+          <Link 
+            href="/login" 
+            style={{ 
+              color: tokens.colors.primary,
+              textDecoration: "none",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.textDecoration = "underline";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.textDecoration = "none";
+            }}
+          >
             Sign in
           </Link>
         </p>

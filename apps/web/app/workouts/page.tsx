@@ -1,10 +1,11 @@
 import { getServerUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Navigation } from "@/components/Navigation";
-import { Card } from "@/components/Card";
-import { Button } from "@/components/Button";
-import { cn } from "@/lib/utils";
+import { NavBar } from "@repo/design-system/components/NavBar";
+import { PageContainer } from "@repo/design-system/layout/PageContainer";
+import { Card } from "@repo/design-system/components/Card";
+import { Button } from "@repo/design-system/components/Button";
+import { ProgressBar } from "@repo/design-system/components/ProgressBar";
 import { ArrowLeft, Check } from "lucide-react";
 
 export default async function WorkoutSessionPage() {
@@ -78,9 +79,10 @@ export default async function WorkoutSessionPage() {
 
   return (
     <div className="min-h-screen bg-[#F3F4F6]">
-      <Navigation />
+      <NavBar />
       
-      <main className="max-w-[800px] mx-auto px-6 py-12">
+      <PageContainer>
+        <main className="max-w-[800px] mx-auto px-6 py-12">
         {/* Back Button */}
         <Link
           href="/dashboard"
@@ -100,19 +102,24 @@ export default async function WorkoutSessionPage() {
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="w-full h-2 bg-[#E4E7EB] rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-[#4B75FF] rounded-full transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <div className="text-[#6B7280] mt-2 text-right" style={{ fontSize: '14px' }}>
+          <ProgressBar value={progress} />
+          <div 
+            className="mt-2 text-right" 
+            style={{ 
+              fontSize: 'var(--font-size-sm)', 
+              color: 'var(--color-text-muted)',
+              fontFamily: 'var(--font-family)'
+            }}
+          >
             {progress}% complete
           </div>
         </div>
 
         {/* Current Exercise Card */}
-        <Card className="mb-8 border-2 border-[#4B75FF]">
+        <Card 
+          className="mb-8" 
+          style={{ border: `2px solid var(--color-primary)` }}
+        >
           <div className="text-[#6B7280] mb-2" style={{ fontSize: '14px' }}>
             CURRENT EXERCISE
           </div>
@@ -157,11 +164,11 @@ export default async function WorkoutSessionPage() {
               return (
                 <Card
                   key={exercise.id}
-                  className={`transition-all ${
-                    isActive 
-                      ? 'border-2 border-[#4B75FF]' 
-                      : 'border border-[#E4E7EB]'
-                  }`}
+                  style={{
+                    border: isActive 
+                      ? `2px solid var(--color-primary)` 
+                      : `1px solid var(--color-stroke)`
+                  }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -194,7 +201,8 @@ export default async function WorkoutSessionPage() {
         <Button className="w-full">
           Complete workout
         </Button>
-      </main>
+        </main>
+      </PageContainer>
     </div>
   );
 }

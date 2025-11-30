@@ -1,0 +1,20 @@
+{
+  "name": "@repo/design-system",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./tokens/design-tokens": "./tokens/design-tokens.ts",
+    "./components/Alert": "./components/Alert.tsx",
+    "./components/Badge": "./components/Badge.tsx",
+    "./components/Button": "./components/Button.tsx",
+    "./components/Card": "./components/Card.tsx",
+    "./components/Input": "./components/Input.tsx",
+    "./components/NavBar": "./components/NavBar.tsx",
+    "./components/ProgressBar": "./components/ProgressBar.tsx",
+    "./layout/PageContainer": "./layout/PageContainer.tsx"
+  }
+}
+

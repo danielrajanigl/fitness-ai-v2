@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getServerUserOptional } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Card } from "@/components/Card";
-import { Button } from "@/components/Button";
+import { Card } from "@repo/design-system/components/Card";
+import { Button } from "@repo/design-system/components/Button";
 import { ArrowRight } from "lucide-react";
 
 export default async function HomePage() {
